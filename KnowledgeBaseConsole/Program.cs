@@ -41,59 +41,59 @@ namespace KnowledgeBaseConsole
         }
         private Judgment GetFactor1()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.OilInTank, EvaluationValue.Empty);
+            judgment = new Judgment(FactorName.OilInTank, EvaluationValue.Empty);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor2()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.OilInCan, EvaluationValue.Empty);
+            judgment = new Judgment(FactorName.OilInCan, EvaluationValue.Empty);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor3()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.FuelInTank, EvaluationValue.Empty);
+            judgment = new Judgment(FactorName.FuelInTank, EvaluationValue.Empty);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor4()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.FuelInCan, EvaluationValue.Empty);
+            judgment = new Judgment(FactorName.FuelInCan, EvaluationValue.Empty);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor5()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.ConnectedDevices, EvaluationValue.NotEmpty);
+            judgment = new Judgment(FactorName.ConnectedDevices, EvaluationValue.NotEmpty);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor6()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.FlapPosition, EvaluationValue.Open);
+            judgment = new Judgment(FactorName.FlapPosition, EvaluationValue.Open);
 
-            return antecedent;
+            return judgment;
         }
         private Judgment GetFactor7()
         {
-            Judgment antecedent;
+            Judgment judgment;
 
-            antecedent = new Antecedent(FactorName.AmbientTemperature, EvaluationValue.Hight);
+            judgment = new Judgment(FactorName.AmbientTemperature, EvaluationValue.Hight);
 
-            return antecedent;
+            return judgment;
         }
         #endregion
     }

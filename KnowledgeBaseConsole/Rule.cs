@@ -6,13 +6,13 @@ namespace KnowledgeBaseConsole
 {
     abstract class Rule : IComparable
     {
-        private Antecedent antecedent;
-        private Consequent consequent;
+        private JudgmentList antecedent;
+        private Judgment consequent;
 
-        public Antecedent Antecedent { get { return this.antecedent; } }
-        public Consequent Consequent { get { return this.consequent; } }
+        public JudgmentList Antecedent { get { return this.antecedent; } }
+        public Judgment Consequent { get { return this.consequent; } }
 
-        public Rule(Antecedent antecedent, Consequent consequent)
+        public Rule(JudgmentList antecedent, Judgment consequent)
         {
             this.antecedent = antecedent;
             this.consequent = consequent;
@@ -71,6 +71,11 @@ namespace KnowledgeBaseConsole
             Console.WriteLine("Консеквент:");
             this.consequent.Print();
             Console.WriteLine("————————————————————————————————————————\n\n");
+        }
+
+        public override string ToString()
+        {
+            return this.consequent.ToString();
         }
     }
 }

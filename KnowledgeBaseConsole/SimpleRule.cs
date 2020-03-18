@@ -6,7 +6,7 @@ namespace KnowledgeBaseConsole
 {
     class SimpleRule : Rule
     {
-        public SimpleRule(Antecedent antecedent, Consequent consequent) : base(antecedent, consequent) { }
+        public SimpleRule(JudgmentList antecedent, Judgment consequent) : base(antecedent, consequent) { }
 
         public override void AddChildRule(Rule rule) =>
             throw new NotImplementedException();

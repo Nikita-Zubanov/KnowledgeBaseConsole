@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    abstract class Judgment
+    class Judgment 
     {
         private FactorName name;
         private EvaluationValue value;
@@ -12,7 +12,6 @@ namespace KnowledgeBaseConsole
         public FactorName Name { get { return this.name; } }
         public EvaluationValue Value { get { return this.value; } }
 
-        public Judgment() { }
         public Judgment(FactorName name, EvaluationValue value)
         {
             this.name = name;

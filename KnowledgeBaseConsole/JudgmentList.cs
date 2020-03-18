@@ -5,27 +5,27 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Antecedent : Judgment
+    class JudgmentList
     {
         private IList<Judgment> judgments;
 
         public IList<Judgment> Judgments { get { return this.judgments; } }
-            
-        public Antecedent(FactorName name, EvaluationValue value) : base(name, value) 
+
+        public JudgmentList(Judgment judgment)
         {
-            this.judgments = new List<Judgment>();
+            this.judgments = new List<Judgment> { judgment };
         }
 
-        public Antecedent(IList<Judgment> judgments)
+        public JudgmentList(IList<Judgment> judgments) 
         {
             this.judgments = judgments;
         }
 
-        public new bool Equals(object obj)
+        public /*new*/ bool Equals(object obj)
         {
-            if (obj is Judgment)
+            if (obj is JudgmentList)
             {
-                Antecedent antecedent = obj as Antecedent;
+                JudgmentList antecedent = obj as JudgmentList;
 
                 foreach (Judgment currentJudgment in this.judgments)
                 {
