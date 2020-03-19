@@ -21,7 +21,7 @@ namespace KnowledgeBaseConsole
             this.judgments = judgments;
         }
 
-        public /*new*/ bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             if (obj is JudgmentList)
             {
