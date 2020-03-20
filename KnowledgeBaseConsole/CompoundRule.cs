@@ -8,7 +8,7 @@ namespace KnowledgeBaseConsole
     {
         private IList<Rule> childRules;
 
-        public CompoundRule(JudgmentList antecedent, Judgment consequent) : base(antecedent, consequent)
+        public CompoundRule(IList<Judgment> antecedent, Judgment consequent) : base(antecedent, consequent)
         {
             this.childRules = new List<Rule>();
         }

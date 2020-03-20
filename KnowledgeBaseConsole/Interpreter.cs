@@ -59,7 +59,7 @@ namespace KnowledgeBaseConsole
         private void FillRulesAndFactorsForLogicalOutput(IList<Rule> baseRulesTree, IList<Judgment> workingMemoryFactors)
         {
             foreach (Rule rule in baseRulesTree)
-                if (this.SecondJudgmentHaveFirst(rule.Antecedent.Judgments, workingMemory.Factors))
+                if (this.SecondJudgmentHaveFirst(rule.Antecedent, workingMemory.Factors))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
                     this.factorsOutput[this.iteration].Add(rule.Consequent);

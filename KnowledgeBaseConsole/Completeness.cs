@@ -40,7 +40,7 @@ namespace KnowledgeBaseConsole
                 Boolean isAdded = false;
 
                 foreach (Rule baseRule in baseRules)
-                    if (ruleOfTree.Antecedent.Judgments.Contains(baseRule.Consequent))
+                    if (ruleOfTree.Antecedent.Contains(baseRule.Consequent))
                     {
                         ruleOfTree.AddChildRule((CompoundRule)(SimpleRule)baseRule);
 
@@ -72,7 +72,7 @@ namespace KnowledgeBaseConsole
 
                 foreach (Rule rule in baseRules)
                 {
-                    IList<Judgment> antecedentsRule = rule.Antecedent.Judgments;
+                    IList<Judgment> antecedentsRule = rule.Antecedent;
 
                     if (antecedentsRule.Contains(consequentCurrentRule))
                     {
