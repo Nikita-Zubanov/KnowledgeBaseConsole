@@ -30,7 +30,7 @@ namespace KnowledgeBaseConsole
         public void SetLogicalOutput()
         {
             IList<Rule> baseRulesTree = ruleBase.CompoundRules;
-            IList<Judgment> workingMemoryFactors = workingMemory.Factors;
+            IList<Judgment> workingMemoryFactors = workingMemory.Factors.ToList();
             IList<Judgment> topRulesConsequents = GetTopRulesConsequents(ruleBase.CompoundRules);
 
             while (!this.SecondJudgmentHaveFirst(topRulesConsequents, workingMemoryFactors))
@@ -59,7 +59,7 @@ namespace KnowledgeBaseConsole
         private void FillRulesAndFactorsForLogicalOutput(IList<Rule> baseRulesTree, IList<Judgment> workingMemoryFactors)
         {
             foreach (Rule rule in baseRulesTree)
-                if (this.SecondJudgmentHaveFirst(rule.Antecedent, workingMemory.Factors))
+                if (this.SecondJudgmentHaveFirst(rule.Antecedent.Judgments, workingMemoryFactors))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
                     this.factorsOutput[this.iteration].Add(rule.Consequent);

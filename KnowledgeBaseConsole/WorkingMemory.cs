@@ -7,13 +7,13 @@ namespace KnowledgeBaseConsole
 {
     class WorkingMemory
     {
-        private IList<Judgment> factors;
+        private JudgmentList factors;
 
-        public IList<Judgment> Factors { get { return this.factors; } }
+        public JudgmentList Factors { get { return this.factors; } }
 
         public WorkingMemory(IList<Judgment> inputFactors)
         {
-            this.factors = inputFactors;
+            this.factors = new JudgmentList(inputFactors);
         }
 
         public void AddFactor(Judgment factor)
@@ -23,8 +23,7 @@ namespace KnowledgeBaseConsole
 
         public void AddRangeFactors(IList<Judgment> factors)
         {
-            foreach (Judgment factor in factors)
-                this.AddFactor(factor);
+            this.factors.AddRange(factors);
         }
     }
 }

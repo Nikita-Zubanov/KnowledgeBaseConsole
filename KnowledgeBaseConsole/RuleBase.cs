@@ -21,17 +21,18 @@ namespace KnowledgeBaseConsole
             this.Initialize();
         }
 
-        public void Verify(IVerification verification)
+        public void Verify(IVerification verification, IList<Rule> rules)
         {
-            verification.Verify(this.compoundRules);
+            verification.Verify(rules);
         }
 
         private void Initialize()
         {
             this.UploadData();
 
-            this.Verify(new Coherence());
-            this.Verify(new Completeness());
+            this.Verify(new Coherence(), this.rules);
+            this.Verify(new Coherence(), this.compoundRules);
+            this.Verify(new Completeness(), this.compoundRules);
         }
 
         private void UploadData()
@@ -68,10 +69,10 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule1()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment>(new List<Judgment> {
+            antecedent = new JudgmentList(new List<Judgment> {
                 new Judgment(FactorName.OilInTank, EvaluationValue.Empty),
                 new Judgment(FactorName.OilInCan, EvaluationValue.Empty)
             });
@@ -81,10 +82,10 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule2()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment>(new List<Judgment> {
+            antecedent = new JudgmentList(new List<Judgment> {
                 new Judgment(FactorName.OilInTank, EvaluationValue.Empty),
                 new Judgment(FactorName.OilInCan, EvaluationValue.NotEmpty)
             });
@@ -94,10 +95,10 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule3()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment>(new List<Judgment> {
+            antecedent = new JudgmentList(new List<Judgment> {
                 new Judgment(FactorName.FuelInTank, EvaluationValue.Empty),
                 new Judgment(FactorName.FuelInCan, EvaluationValue.Empty)
             });
@@ -107,10 +108,10 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule4()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment>(new List<Judgment> {
+            antecedent = new JudgmentList(new List<Judgment> {
                 new Judgment(FactorName.FuelInTank, EvaluationValue.Empty),
                 new Judgment(FactorName.FuelInCan, EvaluationValue.NotEmpty)
             });
@@ -120,90 +121,90 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule5()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.ConnectedDevices, EvaluationValue.NotEmpty) };
+            antecedent = new JudgmentList(new Judgment(FactorName.ConnectedDevices, EvaluationValue.NotEmpty) );
             consequent = new Judgment(FactorName.ConnectedDevices, EvaluationValue.DisconnectDevices);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule6()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.FlapPosition, EvaluationValue.Open) };
+            antecedent = new JudgmentList(new Judgment(FactorName.FlapPosition, EvaluationValue.Open) );
             consequent = new Judgment(FactorName.FlapPosition, EvaluationValue.CloseFlap);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule7()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.ConnectedDevices, EvaluationValue.DisconnectDevices) };
+            antecedent = new JudgmentList(new Judgment(FactorName.ConnectedDevices, EvaluationValue.DisconnectDevices) );
             consequent = new Judgment(FactorName.ConnectedDevices, EvaluationValue.Empty);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule8()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.FlapPosition, EvaluationValue.CloseFlap) };
+            antecedent = new JudgmentList(new Judgment(FactorName.FlapPosition, EvaluationValue.CloseFlap) );
             consequent = new Judgment(FactorName.FlapPosition, EvaluationValue.Close);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule9()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.OilInCan, EvaluationValue.AddOilInCan) };
+            antecedent = new JudgmentList(new Judgment(FactorName.OilInCan, EvaluationValue.AddOilInCan) );
             consequent = new Judgment(FactorName.OilInCan, EvaluationValue.NotEmpty);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule10()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.OilInTank, EvaluationValue.AddOilInTank) };
+            antecedent = new JudgmentList(new Judgment(FactorName.OilInTank, EvaluationValue.AddOilInTank) );
             consequent = new Judgment(FactorName.OilInTank, EvaluationValue.NotEmpty);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule11()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.FuelInCan, EvaluationValue.AddFuelInCan) };
+            antecedent = new JudgmentList(new Judgment(FactorName.FuelInCan, EvaluationValue.AddFuelInCan) );
             consequent = new Judgment(FactorName.FuelInCan, EvaluationValue.NotEmpty);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule12()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.FuelInTank, EvaluationValue.AddFuelInTank) };
+            antecedent = new JudgmentList(new Judgment(FactorName.FuelInTank, EvaluationValue.AddFuelInTank));
             consequent = new Judgment(FactorName.FuelInTank, EvaluationValue.NotEmpty);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule13()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment>(new List<Judgment> {
+            antecedent = new JudgmentList(new List<Judgment> {
                 new Judgment(FactorName.OilInTank, EvaluationValue.NotEmpty),
                 new Judgment(FactorName.FuelInTank, EvaluationValue.NotEmpty),
                 new Judgment(FactorName.ConnectedDevices, EvaluationValue.Empty),
@@ -215,60 +216,60 @@ namespace KnowledgeBaseConsole
         }
         private Rule GetRule14()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.AmbientTemperature, EvaluationValue.Hight) };
+            antecedent = new JudgmentList(new Judgment(FactorName.AmbientTemperature, EvaluationValue.Hight) );
             consequent = new Judgment(FactorName.Heater, EvaluationValue.SwitchOff);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule15()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.AmbientTemperature, EvaluationValue.Low) };
+            antecedent = new JudgmentList(new Judgment(FactorName.AmbientTemperature, EvaluationValue.Low) );
             consequent = new Judgment(FactorName.Heater, EvaluationValue.SwitchOn);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule16()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.Heater, EvaluationValue.SwitchOn) };
+            antecedent = new JudgmentList(new Judgment(FactorName.Heater, EvaluationValue.SwitchOn) );
             consequent = new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule17()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.Heater, EvaluationValue.SwitchOff) };
+            antecedent = new JudgmentList(new Judgment(FactorName.Heater, EvaluationValue.SwitchOff) );
             consequent = new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule18()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal) };
+            antecedent = new JudgmentList(new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal));
             consequent = new Judgment(FactorName.Generator, EvaluationValue.CheckAmbientTemperature);
 
             return new SimpleRule(antecedent, consequent);
         }
         private Rule GetRule19()
         {
-            List<Judgment> antecedent;
+            JudgmentList antecedent;
             Judgment consequent;
 
-            antecedent = new List<Judgment> { new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal) };
+            antecedent = new JudgmentList(new Judgment(FactorName.AmbientTemperature, EvaluationValue.Normal));
             consequent = new Judgment(FactorName.Generator, EvaluationValue.CheckAmbientTemperature);
 
             return new SimpleRule(antecedent, consequent);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class JudgmentList
+    class JudgmentList : IEnumerable<Judgment>
     {
         private IList<Judgment> judgments;
 
@@ -16,12 +16,12 @@ namespace KnowledgeBaseConsole
             this.judgments = new List<Judgment> { judgment };
         }
 
-        public JudgmentList(IList<Judgment> judgments) 
+        public JudgmentList(IList<Judgment> judgments)
         {
             this.judgments = judgments;
         }
 
-        public /*new*/ bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             if (obj is JudgmentList)
             {
@@ -31,8 +31,8 @@ namespace KnowledgeBaseConsole
                 {
                     Boolean hasJudgment = false;
 
-                    foreach (Judgment judgment in judgments)
-                        if (currentJudgment.Equals(judgment))
+                    foreach (Judgment itemAntecedent in antecedent)
+                        if (currentJudgment.Equals(itemAntecedent))
                         {
                             hasJudgment = true;
                             break;
@@ -46,6 +46,48 @@ namespace KnowledgeBaseConsole
             }
             else
                 throw new ArgumentException();
+        }
+
+        public IList<Judgment> ToList()
+        {
+            return this.judgments;
+        }
+
+        public void Add(Judgment judgment)
+        {
+            this.judgments.Add(judgment);
+        }
+
+        public void AddRange(IList<Judgment> judgments)
+        {
+            foreach (Judgment judgment in judgments)
+                this.judgments.Add(judgment);
+        }
+
+        public bool Contains(object obj)
+        {
+
+            if (obj is Judgment)
+            {
+                Judgment judgment = obj as Judgment;
+
+                if (this.judgments.Contains(judgment))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                throw new ArgumentException();
+        }
+
+        public IEnumerator<Judgment> GetEnumerator()
+        {
+            return this.judgments.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.judgments.GetEnumerator();
         }
     }
 }

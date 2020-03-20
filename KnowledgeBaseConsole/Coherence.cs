@@ -47,7 +47,7 @@ namespace KnowledgeBaseConsole
             {
                 foreach (Rule rule in rules)
                 {
-                    IList<Judgment> ruleAntecedents = rule.Antecedent;
+                    IList<Judgment> ruleAntecedents = rule.Antecedent.Judgments;
                     Judgment ruleConsequent = rule.Consequent;
 
                     if (currentRule.Equals(ruleAntecedents) &&

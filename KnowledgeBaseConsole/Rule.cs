@@ -4,44 +4,15 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    static class IListExtension
-    {
-        public static bool EqualsJugments(this IList<Judgment> judgments, object obj)
-        {
-            if (obj is IList<Judgment>)
-            {
-                IList<Judgment> antecedent = obj as IList<Judgment>;
-
-                foreach (Judgment currentJudgment in judgments)
-                {
-                    Boolean hasJudgment = false;
-
-                    foreach (Judgment itemAntecedent in antecedent)
-                        if (currentJudgment.Equals(itemAntecedent))
-                        {
-                            hasJudgment = true;
-                            break;
-                        }
-
-                    if (!hasJudgment)
-                        return false;
-                }
-
-                return true;
-            }
-            else
-                throw new ArgumentException();
-        }
-    }
     abstract class Rule : IComparable
     {
-        private IList<Judgment> antecedent;
+        private JudgmentList antecedent;
         private Judgment consequent;
 
-        public IList<Judgment> Antecedent { get { return this.antecedent; } }
+        public JudgmentList Antecedent { get { return this.antecedent; } }
         public Judgment Consequent { get { return this.consequent; } }
 
-        public Rule(IList<Judgment> antecedent, Judgment consequent)
+        public Rule(JudgmentList antecedent, Judgment consequent)
         {
             this.antecedent = antecedent;
             this.consequent = consequent;
@@ -73,7 +44,7 @@ namespace KnowledgeBaseConsole
             {
                 Rule rule = obj as Rule;
 
-                if (this.antecedent.EqualsJugments(rule.Antecedent) &&
+                if (this.antecedent.Equals(rule.Antecedent) &&
                     this.consequent.Equals(rule.Consequent))
                     return true;
                 else
