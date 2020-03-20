@@ -14,7 +14,7 @@ namespace KnowledgeBaseConsole
             foreach (Judgment factor in factors)
                 factor.Print();
 
-            Interpreter interpreter = new Interpreter(factors);
+            LogicalConclusion interpreter = new LogicalConclusion(factors);
             interpreter.SetLogicalOutput();
 
             foreach (KeyValuePair<Int32, IList<Judgment>> factorKeyValue in interpreter.FactorsOutput)

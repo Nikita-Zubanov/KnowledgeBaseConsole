@@ -4,15 +4,15 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    abstract class Rule : IComparable
+    abstract class Rule 
     {
-        private JudgmentList antecedent;
-        private Judgment consequent;
+        private Antecedent antecedent;
+        private Consequent consequent;
 
-        public JudgmentList Antecedent { get { return this.antecedent; } }
-        public Judgment Consequent { get { return this.consequent; } }
+        public Antecedent Antecedent { get { return this.antecedent; } }
+        public Consequent Consequent { get { return this.consequent; } }
 
-        public Rule(JudgmentList antecedent, Judgment consequent)
+        public Rule(Antecedent antecedent, Consequent consequent)
         {
             this.antecedent = antecedent;
             this.consequent = consequent;
@@ -20,23 +20,6 @@ namespace KnowledgeBaseConsole
 
         public abstract void AddChildRule(Rule rule);
         public abstract IList<Rule> GetChildRules();
-
-        public int CompareTo(object obj)
-        {
-            if (obj is Rule)
-            {
-                Rule rule = obj as Rule;
-
-                if (rule.Antecedent.Contains(this.consequent))
-                    return 1;
-                else if (this.antecedent.Contains(rule.Consequent))
-                    return -1;
-                else
-                    return 0;
-            }
-            else
-                throw new ArgumentException();
-        }
 
         public override bool Equals(object obj)
         {

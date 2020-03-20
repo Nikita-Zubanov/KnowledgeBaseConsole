@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Interpreter
+    class LogicalConclusion
     {
         private RuleBase ruleBase;
         private WorkingMemory workingMemory;
@@ -18,7 +18,7 @@ namespace KnowledgeBaseConsole
         public IDictionary<Int32, IList<Judgment>> FactorsOutput { get { return this.factorsOutput; } }
         public IDictionary<Int32, IList<Rule>> RulesOutput { get { return this.rulesOutput; } }
 
-        public Interpreter(IList<Judgment> factors)
+        public LogicalConclusion(IList<Judgment> factors)
         {
             this.ruleBase = new RuleBase();
             this.workingMemory = new WorkingMemory(factors);
@@ -29,16 +29,16 @@ namespace KnowledgeBaseConsole
 
         public void SetLogicalOutput()
         {
-            IList<Rule> baseRulesTree = ruleBase.CompoundRules;
-            IList<Judgment> workingMemoryFactors = workingMemory.Factors.ToList();
-            IList<Judgment> topRulesConsequents = GetTopRulesConsequents(ruleBase.CompoundRules);
+            IList<Rule> baseRuleTree = ruleBase.RuleTree;
+            IList<Judgment> workingMemoryFactors = workingMemory.Factors;
+            IList<Judgment> topRulesConsequents = this.GetTopRulesConsequents(ruleBase.RuleTree);
 
-            while (!this.SecondJudgmentHaveFirst(topRulesConsequents, workingMemoryFactors))
+            while (!this.FirstJudgmentHaveSecond(workingMemoryFactors, topRulesConsequents))
             {
                 this.factorsOutput.Add(this.iteration, new List<Judgment>());
                 this.rulesOutput.Add(this.iteration, new List<Rule>());
 
-                this.FillRulesAndFactorsForLogicalOutput(baseRulesTree, workingMemoryFactors);
+                this.FillRulesAndFactorsLogicalOutput(baseRuleTree, workingMemoryFactors);
 
                 this.workingMemory.AddRangeFactors(this.factorsOutput[iteration]);
                 
@@ -56,22 +56,22 @@ namespace KnowledgeBaseConsole
             return topRulesConsequents;
         }
 
-        private void FillRulesAndFactorsForLogicalOutput(IList<Rule> baseRulesTree, IList<Judgment> workingMemoryFactors)
+        private void FillRulesAndFactorsLogicalOutput(IList<Rule> baseRuleTree, IList<Judgment> workingMemoryFactors)
         {
-            foreach (Rule rule in baseRulesTree)
-                if (this.SecondJudgmentHaveFirst(rule.Antecedent.Judgments, workingMemoryFactors))
+            foreach (Rule rule in baseRuleTree)
+                if (this.FirstJudgmentHaveSecond(workingMemoryFactors, rule.Antecedent.Judgments))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
                     this.factorsOutput[this.iteration].Add(rule.Consequent);
                 }
                 else
-                    this.FillRulesAndFactorsForLogicalOutput(rule.GetChildRules(), workingMemoryFactors);
+                    this.FillRulesAndFactorsLogicalOutput(rule.GetChildRules(), workingMemoryFactors);
         }
 
-        private Boolean SecondJudgmentHaveFirst(IList<Judgment> firstJudgment, IList<Judgment> secondJudgment)
+        private Boolean FirstJudgmentHaveSecond(IList<Judgment> firstJudgments, IList<Judgment> secondJudgments)
         {
-            foreach (Judgment antecedent in firstJudgment)
-                if (!secondJudgment.Contains(antecedent))
+            foreach (Judgment secondJudgment in secondJudgments)
+                if (!firstJudgments.Contains(secondJudgment))
                     return false;
 
             return true;

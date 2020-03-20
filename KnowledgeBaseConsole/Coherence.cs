@@ -47,11 +47,11 @@ namespace KnowledgeBaseConsole
             {
                 foreach (Rule rule in rules)
                 {
-                    IList<Judgment> ruleAntecedents = rule.Antecedent.Judgments;
+                    Antecedent ruleAntecedent = rule.Antecedent;
                     Judgment ruleConsequent = rule.Consequent;
 
-                    if (currentRule.Equals(ruleAntecedents) &&
-                        !currentRule.Equals(ruleConsequent))
+                    if (currentRule.Antecedent.Equals(ruleAntecedent) &&
+                        !currentRule.Consequent.Equals(ruleConsequent))
                         return false;
                 }
             }

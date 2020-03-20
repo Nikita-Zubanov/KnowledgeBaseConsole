@@ -5,34 +5,34 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class JudgmentList : IEnumerable<Judgment>
+    class Antecedent : IEnumerable<Judgment>
     {
         private IList<Judgment> judgments;
 
         public IList<Judgment> Judgments { get { return this.judgments; } }
 
-        public JudgmentList(Judgment judgment)
+        public Antecedent(Judgment judgment)
         {
             this.judgments = new List<Judgment> { judgment };
         }
 
-        public JudgmentList(IList<Judgment> judgments)
+        public Antecedent(IList<Judgment> judgments)
         {
             this.judgments = judgments;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is JudgmentList)
+            if (obj is Antecedent)
             {
-                JudgmentList antecedent = obj as JudgmentList;
+                Antecedent antecedent = obj as Antecedent;
 
                 foreach (Judgment currentJudgment in this.judgments)
                 {
                     Boolean hasJudgment = false;
 
-                    foreach (Judgment itemAntecedent in antecedent)
-                        if (currentJudgment.Equals(itemAntecedent))
+                    foreach (Judgment judgment in antecedent)
+                        if (currentJudgment.Equals(judgment))
                         {
                             hasJudgment = true;
                             break;
@@ -48,25 +48,22 @@ namespace KnowledgeBaseConsole
                 throw new ArgumentException();
         }
 
-        public IList<Judgment> ToList()
+        public override string ToString()
         {
-            return this.judgments;
-        }
+            string toString = null;
 
-        public void Add(Judgment judgment)
-        {
-            this.judgments.Add(judgment);
-        }
+            foreach (Judgment judgment in this.judgments)
+            {
+                toString += judgment.ToString();
+                if (this.judgments.Count > 1)
+                    toString += ";    ";
+            }
 
-        public void AddRange(IList<Judgment> judgments)
-        {
-            foreach (Judgment judgment in judgments)
-                this.judgments.Add(judgment);
+            return toString;
         }
 
         public bool Contains(object obj)
         {
-
             if (obj is Judgment)
             {
                 Judgment judgment = obj as Judgment;
@@ -75,6 +72,7 @@ namespace KnowledgeBaseConsole
                     return true;
                 else
                     return false;
+
             }
             else
                 throw new ArgumentException();

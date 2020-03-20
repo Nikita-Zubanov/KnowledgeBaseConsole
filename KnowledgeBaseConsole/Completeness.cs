@@ -5,7 +5,7 @@ using System.Text;
 namespace KnowledgeBaseConsole
 {
     class Completeness : IVerification
-    { 
+    {
         public void Verify(IList<Rule> rules)
         {
             if (rules != null)
@@ -72,9 +72,9 @@ namespace KnowledgeBaseConsole
 
                 foreach (Rule rule in baseRules)
                 {
-                    IList<Judgment> antecedentsRule = rule.Antecedent.Judgments;
+                    Antecedent antecedentRule = rule.Antecedent;
 
-                    if (antecedentsRule.Contains(consequentCurrentRule))
+                    if (antecedentRule.Contains(consequentCurrentRule))
                     {
                         isTopRule = false;
                         break;
