@@ -5,33 +5,33 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Antecedent : Judgment
+    class Antecedent
     {
-        private IList<Judgment> judgments;
+        private IList<Judgment> judgmentList;
 
-        public IList<Judgment> Judgments { get { return this.judgments; } }
-            
-        public Antecedent(FactorName name, EvaluationValue value) : base(name, value) 
+        public IList<Judgment> JudgmentList { get { return this.judgmentList; } }
+
+        public Antecedent(Judgment judgment)
         {
-            this.judgments = new List<Judgment>();
+            this.judgmentList = new List<Judgment> { judgment };
         }
 
         public Antecedent(IList<Judgment> judgments)
         {
-            this.judgments = judgments;
+            this.judgmentList = judgments;
         }
 
-        public new bool Equals(object obj)
+        public override bool Equals(object obj)
         {
-            if (obj is Judgment)
+            if (obj is Antecedent)
             {
                 Antecedent antecedent = obj as Antecedent;
 
-                foreach (Judgment currentJudgment in this.judgments)
+                foreach (Judgment currentJudgment in this.JudgmentList)
                 {
                     Boolean hasJudgment = false;
 
-                    foreach (Judgment judgment in judgments)
+                    foreach (Judgment judgment in antecedent.JudgmentList)
                         if (currentJudgment.Equals(judgment))
                         {
                             hasJudgment = true;
@@ -46,6 +46,20 @@ namespace KnowledgeBaseConsole
             }
             else
                 throw new ArgumentException();
+        }
+
+        public override string ToString()
+        {
+            string toString = null;
+
+            foreach (Judgment judgment in this.judgmentList)
+            {
+                toString += judgment.ToString();
+                if (this.judgmentList.Count > 1)
+                    toString += ";    ";
+            }
+
+            return toString;
         }
     }
 }

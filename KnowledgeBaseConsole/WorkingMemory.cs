@@ -13,18 +13,22 @@ namespace KnowledgeBaseConsole
 
         public WorkingMemory(IList<Judgment> inputFactors)
         {
-            this.factors = inputFactors;
-        }
-
-        public void AddFactor(Judgment factor)
-        {
-            this.factors.Add(factor);
+            this.factors =inputFactors;
         }
 
         public void AddRangeFactors(IList<Judgment> factors)
         {
             foreach (Judgment factor in factors)
-                this.AddFactor(factor);
+                this.factors.Add(factor);
+        }
+
+        public Boolean HaveJudgments(IList<Judgment> judgments)
+        {
+            foreach (Judgment judgment in judgments)
+                if (!this.factors.Contains(judgment))
+                    return false;
+
+            return true;
         }
     }
 }

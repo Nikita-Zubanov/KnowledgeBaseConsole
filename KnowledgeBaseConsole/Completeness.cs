@@ -5,7 +5,7 @@ using System.Text;
 namespace KnowledgeBaseConsole
 {
     class Completeness : IVerification
-    { 
+    {
         public void Verify(IList<Rule> rules)
         {
             if (rules != null)
@@ -40,7 +40,7 @@ namespace KnowledgeBaseConsole
                 Boolean isAdded = false;
 
                 foreach (Rule baseRule in baseRules)
-                    if (ruleOfTree.Antecedent.Judgments.Contains(baseRule.Consequent))
+                    if (ruleOfTree.Antecedent.JudgmentList.Contains(baseRule.Consequent.Judgment))
                     {
                         ruleOfTree.AddChildRule((CompoundRule)(SimpleRule)baseRule);
 
@@ -65,24 +65,19 @@ namespace KnowledgeBaseConsole
         {
             IList<Rule> topRules = new List<Rule>();
 
-            foreach (Rule baseRule in baseRules)
+            foreach (Rule currentRule in baseRules)
             {
                 Boolean isTopRule = true;
-                Judgment consequentCurrentRule = baseRule.Consequent;
 
                 foreach (Rule rule in baseRules)
-                {
-                    IList<Judgment> antecedentsRule = rule.Antecedent.Judgments;
-
-                    if (antecedentsRule.Contains(consequentCurrentRule))
+                    if (rule.Antecedent.JudgmentList.Contains(currentRule.Consequent.Judgment))
                     {
                         isTopRule = false;
                         break;
                     }
-                }
 
                 if (isTopRule)
-                    topRules.Add(new CompoundRule(baseRule.Antecedent, baseRule.Consequent));
+                    topRules.Add(new CompoundRule(currentRule.Antecedent, currentRule.Consequent));
             }
 
             return topRules;

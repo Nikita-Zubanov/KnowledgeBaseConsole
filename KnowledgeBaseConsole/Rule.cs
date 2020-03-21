@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    abstract class Rule : IComparable
+    abstract class Rule 
     {
         private Antecedent antecedent;
         private Consequent consequent;
@@ -20,23 +20,6 @@ namespace KnowledgeBaseConsole
 
         public abstract void AddChildRule(Rule rule);
         public abstract IList<Rule> GetChildRules();
-
-        public int CompareTo(object obj)
-        {
-            if (obj is Rule)
-            {
-                Rule rule = obj as Rule;
-
-                if (rule.Antecedent.Judgments.Contains(this.consequent))
-                    return 1;
-                else if (this.antecedent.Judgments.Contains(rule.Consequent))
-                    return -1;
-                else
-                    return 0;
-            }
-            else
-                throw new ArgumentException();
-        }
 
         public override bool Equals(object obj)
         {
@@ -61,16 +44,21 @@ namespace KnowledgeBaseConsole
             Console.WriteLine("————————————————————————————————————————");
             Console.WriteLine("Aнтецедент(-ы):");
 
-            IEnumerator<Judgment> antecedentJudgments = this.antecedent.Judgments.GetEnumerator();
+            IEnumerator<Judgment> antecedentJudgments = this.antecedent.JudgmentList.GetEnumerator();
             while (antecedentJudgments.MoveNext())
             {
-                Judgment antecedentudgment = antecedentJudgments.Current;
-                antecedentudgment.Print();
+                Judgment antecedentJudgment = antecedentJudgments.Current;
+                antecedentJudgment.Print();
             }
 
             Console.WriteLine("Консеквент:");
-            this.consequent.Print();
+            this.consequent.Judgment.Print();
             Console.WriteLine("————————————————————————————————————————\n\n");
+        }
+
+        public override string ToString()
+        {
+            return this.consequent.ToString();
         }
     }
 }
