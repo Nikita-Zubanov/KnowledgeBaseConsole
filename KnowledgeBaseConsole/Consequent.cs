@@ -4,8 +4,20 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Consequent : Judgment
+    class Consequent
     {
-        public Consequent(FactorName name, EvaluationValue value) : base(name, value) { }
+        private Judgment judgment;
+
+        public Judgment Judgment { get { return this.judgment; } }
+
+        public Consequent(Judgment judgment) 
+        {
+            this.judgment = judgment;
+        }
+
+        public override string ToString()
+        {
+            return this.judgment.ToString();
+        }
     }
 }

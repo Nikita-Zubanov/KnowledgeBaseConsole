@@ -21,5 +21,14 @@ namespace KnowledgeBaseConsole
             foreach (Judgment factor in factors)
                 this.factors.Add(factor);
         }
+
+        public Boolean HaveJudgments(IList<Judgment> judgments)
+        {
+            foreach (Judgment judgment in judgments)
+                if (!this.factors.Contains(judgment))
+                    return false;
+
+            return true;
+        }
     }
 }

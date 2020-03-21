@@ -44,15 +44,15 @@ namespace KnowledgeBaseConsole
             Console.WriteLine("————————————————————————————————————————");
             Console.WriteLine("Aнтецедент(-ы):");
 
-            IEnumerator<Judgment> antecedentJudgments = this.antecedent.GetEnumerator();
+            IEnumerator<Judgment> antecedentJudgments = this.antecedent.JudgmentList.GetEnumerator();
             while (antecedentJudgments.MoveNext())
             {
-                Judgment antecedentudgment = antecedentJudgments.Current;
-                antecedentudgment.Print();
+                Judgment antecedentJudgment = antecedentJudgments.Current;
+                antecedentJudgment.Print();
             }
 
             Console.WriteLine("Консеквент:");
-            this.consequent.Print();
+            this.consequent.Judgment.Print();
             Console.WriteLine("————————————————————————————————————————\n\n");
         }
 

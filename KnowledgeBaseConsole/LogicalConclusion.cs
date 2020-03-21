@@ -29,52 +29,31 @@ namespace KnowledgeBaseConsole
 
         public void SetLogicalOutput()
         {
-            IList<Rule> baseRuleTree = ruleBase.RuleTree;
-            IList<Judgment> workingMemoryFactors = workingMemory.Factors;
-            IList<Judgment> topRulesConsequents = this.GetTopRulesConsequents(ruleBase.RuleTree);
+            IList<Judgment> topRuleTreeConsequences = this.ruleBase.GetTopRuleTreeConsequences();
 
-            while (!this.FirstJudgmentHaveSecond(workingMemoryFactors, topRulesConsequents))
+            while (!this.workingMemory.HaveJudgments(topRuleTreeConsequences))
             {
-                this.factorsOutput.Add(this.iteration, new List<Judgment>());
-                this.rulesOutput.Add(this.iteration, new List<Rule>());
+                this.factorsOutput[this.iteration] = new List<Judgment>();
+                this.rulesOutput[this.iteration] = new List<Rule>();
 
-                this.FillRulesAndFactorsLogicalOutput(baseRuleTree, workingMemoryFactors);
+                this.FillRulesAndFactorsLogicalOutput(ruleBase.RuleTree, workingMemory);
 
                 this.workingMemory.AddRangeFactors(this.factorsOutput[iteration]);
-                
+
                 this.iteration++;
             }
         }
 
-        private IList<Judgment> GetTopRulesConsequents(IList<Rule> rules)
-        {
-            IList<Judgment> topRulesConsequents = new List<Judgment>();
-
-            foreach (Rule rule in rules)
-                topRulesConsequents.Add(rule.Consequent);
-
-            return topRulesConsequents;
-        }
-
-        private void FillRulesAndFactorsLogicalOutput(IList<Rule> baseRuleTree, IList<Judgment> workingMemoryFactors)
+        private void FillRulesAndFactorsLogicalOutput(IList<Rule> baseRuleTree, WorkingMemory workingMemory)
         {
             foreach (Rule rule in baseRuleTree)
-                if (this.FirstJudgmentHaveSecond(workingMemoryFactors, rule.Antecedent.Judgments))
+                if (this.workingMemory.HaveJudgments(rule.Antecedent.JudgmentList))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
-                    this.factorsOutput[this.iteration].Add(rule.Consequent);
+                    this.factorsOutput[this.iteration].Add(rule.Consequent.Judgment);
                 }
                 else
-                    this.FillRulesAndFactorsLogicalOutput(rule.GetChildRules(), workingMemoryFactors);
-        }
-
-        private Boolean FirstJudgmentHaveSecond(IList<Judgment> firstJudgments, IList<Judgment> secondJudgments)
-        {
-            foreach (Judgment secondJudgment in secondJudgments)
-                if (!firstJudgments.Contains(secondJudgment))
-                    return false;
-
-            return true;
+                    this.FillRulesAndFactorsLogicalOutput(rule.GetChildRules(), workingMemory);
         }
     }
 }

@@ -44,17 +44,10 @@ namespace KnowledgeBaseConsole
         private Boolean IsConsequentsNotContradictions(IList<Rule> rules)
         {
             foreach (Rule currentRule in rules)
-            {
                 foreach (Rule rule in rules)
-                {
-                    Antecedent ruleAntecedent = rule.Antecedent;
-                    Judgment ruleConsequent = rule.Consequent;
-
-                    if (currentRule.Antecedent.Equals(ruleAntecedent) &&
-                        !currentRule.Consequent.Equals(ruleConsequent))
+                    if (currentRule.Antecedent.Equals(rule.Antecedent) &&
+                        !currentRule.Consequent.Equals(rule.Consequent))
                         return false;
-                }
-            }
 
             return true;
         }

@@ -5,20 +5,20 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Antecedent : IEnumerable<Judgment>
+    class Antecedent
     {
-        private IList<Judgment> judgments;
+        private IList<Judgment> judgmentList;
 
-        public IList<Judgment> Judgments { get { return this.judgments; } }
+        public IList<Judgment> JudgmentList { get { return this.judgmentList; } }
 
         public Antecedent(Judgment judgment)
         {
-            this.judgments = new List<Judgment> { judgment };
+            this.judgmentList = new List<Judgment> { judgment };
         }
 
         public Antecedent(IList<Judgment> judgments)
         {
-            this.judgments = judgments;
+            this.judgmentList = judgments;
         }
 
         public override bool Equals(object obj)
@@ -27,11 +27,11 @@ namespace KnowledgeBaseConsole
             {
                 Antecedent antecedent = obj as Antecedent;
 
-                foreach (Judgment currentJudgment in this.judgments)
+                foreach (Judgment currentJudgment in this.JudgmentList)
                 {
                     Boolean hasJudgment = false;
 
-                    foreach (Judgment judgment in antecedent)
+                    foreach (Judgment judgment in antecedent.JudgmentList)
                         if (currentJudgment.Equals(judgment))
                         {
                             hasJudgment = true;
@@ -52,40 +52,14 @@ namespace KnowledgeBaseConsole
         {
             string toString = null;
 
-            foreach (Judgment judgment in this.judgments)
+            foreach (Judgment judgment in this.judgmentList)
             {
                 toString += judgment.ToString();
-                if (this.judgments.Count > 1)
+                if (this.judgmentList.Count > 1)
                     toString += ";    ";
             }
 
             return toString;
-        }
-
-        public bool Contains(object obj)
-        {
-            if (obj is Judgment)
-            {
-                Judgment judgment = obj as Judgment;
-
-                if (this.judgments.Contains(judgment))
-                    return true;
-                else
-                    return false;
-
-            }
-            else
-                throw new ArgumentException();
-        }
-
-        public IEnumerator<Judgment> GetEnumerator()
-        {
-            return this.judgments.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.judgments.GetEnumerator();
         }
     }
 }
