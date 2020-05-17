@@ -4,9 +4,9 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Completeness : IVerification
+    class Completeness : IVerification, ITransformer
     {
-        public void Verify(IList<Rule> rules)
+        public void Transform(IList<Rule> rules)
         {
             if (rules != null)
             {
@@ -40,7 +40,7 @@ namespace KnowledgeBaseConsole
                 Boolean isAdded = false;
 
                 foreach (Rule baseRule in baseRules)
-                    if (ruleOfTree.Antecedent.JudgmentList.Contains(baseRule.Consequent.Judgment))
+                    if (ruleOfTree.Antecedent.Contains(baseRule.Consequent))
                     {
                         ruleOfTree.AddChildRule((CompoundRule)(SimpleRule)baseRule);
 
@@ -70,14 +70,14 @@ namespace KnowledgeBaseConsole
                 Boolean isTopRule = true;
 
                 foreach (Rule rule in baseRules)
-                    if (rule.Antecedent.JudgmentList.Contains(currentRule.Consequent.Judgment))
+                    if (rule.Antecedent.Contains(currentRule.Consequent))
                     {
                         isTopRule = false;
                         break;
                     }
 
                 if (isTopRule)
-                    topRules.Add(new CompoundRule(currentRule.Antecedent, currentRule.Consequent));
+                    topRules.Add(new CompoundRule(currentRule.Antecedent.ToList(), currentRule.Consequent));
             }
 
             return topRules;

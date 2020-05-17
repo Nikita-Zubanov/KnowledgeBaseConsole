@@ -4,9 +4,9 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    class Coherence : IVerification
+    class Coherence : IVerification, ITransformer
     {
-        public void Verify(IList<Rule> rules)
+        public void Transform(IList<Rule> rules)
         {
             if (rules != null)
             {

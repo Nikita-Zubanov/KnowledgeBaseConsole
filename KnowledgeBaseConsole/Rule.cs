@@ -6,15 +6,15 @@ namespace KnowledgeBaseConsole
 {
     abstract class Rule 
     {
-        private Antecedent antecedent;
-        private Consequent consequent;
+        private JudgmentList antecedent;
+        private Judgment consequent;
 
-        public Antecedent Antecedent { get { return this.antecedent; } }
-        public Consequent Consequent { get { return this.consequent; } }
+        public JudgmentList Antecedent { get { return this.antecedent; } }
+        public Judgment Consequent { get { return this.consequent; } }
 
-        public Rule(Antecedent antecedent, Consequent consequent)
+        public Rule(IList<Judgment> antecedent, Judgment consequent)
         {
-            this.antecedent = antecedent;
+            this.antecedent = new JudgmentList(antecedent);
             this.consequent = consequent;
         }
 
@@ -44,15 +44,15 @@ namespace KnowledgeBaseConsole
             Console.WriteLine("————————————————————————————————————————");
             Console.WriteLine("Aнтецедент(-ы):");
 
-            IEnumerator<Judgment> antecedentJudgments = this.antecedent.JudgmentList.GetEnumerator();
-            while (antecedentJudgments.MoveNext())
+            IEnumerator<Judgment> antecedentEnumerator = this.antecedent.GetEnumerator();
+            while (antecedentEnumerator.MoveNext())
             {
-                Judgment antecedentJudgment = antecedentJudgments.Current;
+                Judgment antecedentJudgment = antecedentEnumerator.Current;
                 antecedentJudgment.Print();
             }
 
             Console.WriteLine("Консеквент:");
-            this.consequent.Judgment.Print();
+            this.consequent.Print();
             Console.WriteLine("————————————————————————————————————————\n\n");
         }
 

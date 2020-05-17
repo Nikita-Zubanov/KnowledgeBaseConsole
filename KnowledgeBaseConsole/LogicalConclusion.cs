@@ -27,33 +27,33 @@ namespace KnowledgeBaseConsole
             this.rulesOutput = new Dictionary<Int32, IList<Rule>>();
         }
 
-        public void SetLogicalOutput()
+        public void FindLogicalConclusionAndSetLogicalOutput()
         {
             IList<Judgment> topRuleTreeConsequences = this.ruleBase.GetTopRuleTreeConsequences();
 
-            while (!this.workingMemory.HaveJudgments(topRuleTreeConsequences))
+            while (!this.workingMemory.ContainsAllJudgments(topRuleTreeConsequences))
             {
                 this.factorsOutput[this.iteration] = new List<Judgment>();
                 this.rulesOutput[this.iteration] = new List<Rule>();
 
-                this.FillRulesAndFactorsLogicalOutput(ruleBase.RuleTree, workingMemory);
+                this.FillRulesAndFactorsLogicalOutput(workingMemory, ruleBase.RuleTree);
 
-                this.workingMemory.AddRangeFactors(this.factorsOutput[iteration]);
+                this.workingMemory.AddRangeFactors(this.factorsOutput[this.iteration]);
 
                 this.iteration++;
             }
         }
 
-        private void FillRulesAndFactorsLogicalOutput(IList<Rule> baseRuleTree, WorkingMemory workingMemory)
+        private void FillRulesAndFactorsLogicalOutput(WorkingMemory workingMemory, IList<Rule> baseRuleTree)
         {
             foreach (Rule rule in baseRuleTree)
-                if (this.workingMemory.HaveJudgments(rule.Antecedent.JudgmentList))
+                if (workingMemory.ContainsAllJudgments(rule.Antecedent.ToList()))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
-                    this.factorsOutput[this.iteration].Add(rule.Consequent.Judgment);
+                    this.factorsOutput[this.iteration].Add(rule.Consequent);
                 }
                 else
-                    this.FillRulesAndFactorsLogicalOutput(rule.GetChildRules(), workingMemory);
+                    this.FillRulesAndFactorsLogicalOutput(workingMemory, rule.GetChildRules());
         }
     }
 }

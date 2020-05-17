@@ -4,8 +4,8 @@ using System.Text;
 
 namespace KnowledgeBaseConsole
 {
-    interface IVerification
+    interface ITransformer
     {
-        Boolean IsVerified(IList<Rule> rules);
+        void Transform(IList<Rule> rules);
     }
 }
