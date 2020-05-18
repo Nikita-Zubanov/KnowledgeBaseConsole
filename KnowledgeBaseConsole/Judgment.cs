@@ -6,13 +6,13 @@ namespace KnowledgeBaseConsole
 {
     class Judgment 
     {
-        private FactorName name;
-        private EvaluationValue value;
+        private FactorTitle name;
+        private FactorFuzzyValue value;
 
-        public FactorName Name { get { return this.name; } }
-        public EvaluationValue Value { get { return this.value; } }
+        public FactorTitle Name { get { return this.name; } }
+        public FactorFuzzyValue Value { get { return this.value; } }
 
-        public Judgment(FactorName name, EvaluationValue value)
+        public Judgment(FactorTitle name, FactorFuzzyValue value)
         {
             this.name = name;
             this.value = value;

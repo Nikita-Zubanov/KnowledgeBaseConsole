@@ -1,32 +1,45 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace KnowledgeBaseConsole
 {
     class WorkingMemory
     {
-        private JudgmentList factors;
+        public IList<Judgment> Factors { get; private set; }
 
         public WorkingMemory(IList<Judgment> inputFactors)
         {
-            this.factors = new JudgmentList(inputFactors);
+            this.Factors = inputFactors;
         }
 
         public void AddFactor(Judgment factor)
         {
-            this.factors.Add(factor);
+                this.Factors.Add(factor);
         }
-
         public void AddRangeFactors(IList<Judgment> factors)
         {
-            this.factors.AddRange(factors);
+            foreach (Judgment factor in factors)
+                this.Factors.Add(factor);
         }
 
-        public bool ContainsAllJudgments(IList<Judgment> judgments)
+        public Boolean HaveJudgments(IList<Judgment> judgments)
         {
-            return this.factors.ContainsAll(judgments);
+            foreach (Judgment judgment in judgments)
+                if (!this.Factors.Contains(judgment))
+                    return false;
+
+            return true;
+        }
+
+        public bool ContainsAny(IList<Judgment> judgments)
+        {
+            foreach (Judgment judgment in judgments)
+                if (Factors.Contains(judgment))
+                    return true;
+            return false;
         }
     }
 }

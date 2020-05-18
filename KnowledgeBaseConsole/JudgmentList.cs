@@ -9,6 +9,9 @@ namespace KnowledgeBaseConsole
     {
         private IList<Judgment> judgmentList;
 
+        public int Count { get { return judgmentList.Count; } }
+        public Judgment First { get { return judgmentList[0]; } }
+
         public JudgmentList(Judgment judgment)
         {
             this.judgmentList = new List<Judgment> { judgment };
@@ -49,6 +52,16 @@ namespace KnowledgeBaseConsole
                     return false;
 
             return true;
+        }
+        public bool ContainsAny(IList<Judgment> judgments)
+        {
+            bool result = false;
+
+            foreach (Judgment judgment in judgments)
+                if (this.judgmentList.Contains(judgment))
+                    result = true;
+
+            return result;
         }
 
         public override bool Equals(object obj)

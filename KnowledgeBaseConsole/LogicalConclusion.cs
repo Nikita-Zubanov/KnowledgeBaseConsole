@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace KnowledgeBaseConsole
@@ -31,7 +32,7 @@ namespace KnowledgeBaseConsole
         {
             IList<Judgment> topRuleTreeConsequences = this.ruleBase.GetTopRuleTreeConsequences();
 
-            while (!this.workingMemory.ContainsAllJudgments(topRuleTreeConsequences))
+            while (!this.workingMemory.ContainsAny(topRuleTreeConsequences))
             {
                 this.factorsOutput[this.iteration] = new List<Judgment>();
                 this.rulesOutput[this.iteration] = new List<Rule>();
@@ -47,13 +48,41 @@ namespace KnowledgeBaseConsole
         private void FillRulesAndFactorsLogicalOutput(WorkingMemory workingMemory, IList<Rule> baseRuleTree)
         {
             foreach (Rule rule in baseRuleTree)
-                if (workingMemory.ContainsAllJudgments(rule.Antecedent.ToList()))
+            {
+                int a;
+                if (rule.Consequent.Equals(new Judgment(FactorTitle.ServiceabilityEquipment, FactorFuzzyValue.Maximum)))
+                    a = 0;
+                if (rule.CheckAntecedent(workingMemory.Factors))
                 {
                     this.rulesOutput[this.iteration].Add(rule);
                     this.factorsOutput[this.iteration].Add(rule.Consequent);
                 }
                 else
+                {
+                    if (rule.Other != null && rule.CheckTitleAntecedent(workingMemory.Factors))
+                    {
+                        workingMemory.AddFactor(rule.Other);
+                    }
+
                     this.FillRulesAndFactorsLogicalOutput(workingMemory, rule.GetChildRules());
+                }
+            }
         }
+
+        //private void CheckOtherRule(IList<Rule> rules)
+        //{
+        //    foreach (var rule in rules)
+        //    {
+        //        if (rule.Other != null)
+        //        {
+        //            if (rule.CheckTitleAntecedent(workingMemory.Factors))
+        //            {
+        //                this.factorsOutput[this.iteration].Add(rule.Other);
+        //                this.workingMemory.AddFactor(rule.Other);
+
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
