@@ -7,38 +7,32 @@ namespace KnowledgeBaseConsole
 {
     abstract class Rule 
     {
-        private LinguisticVariable linguisticVariable;
-        private Antecedent antecedent;
-        private Judgment consequent;
-        private Judgment other;
-
-        public LinguisticVariable LinguisticVariable { get { return this.linguisticVariable; } }
-        public Antecedent Antecedent { get { return this.antecedent; } }
-        public Judgment Consequent { get { return this.consequent; } }
-        public Judgment Other { get { return this.other; } }
+        public LinguisticVariable LinguisticVariable { get; private set; }
+        public Antecedent Antecedent { get; private set; }
+        public Judgment Consequent { get; private set; }
+        public Judgment Otherwise { get; private set; }
 
         public Rule(LinguisticVariable linguisticVariable, Antecedent antecedent, Judgment consequent) : this(linguisticVariable, antecedent, consequent, null) { }
         public Rule(LinguisticVariable linguisticVariable, Antecedent antecedent, Judgment consequent, Judgment other)
         {
-            this.linguisticVariable = linguisticVariable;
-            this.antecedent = antecedent;
-            this.consequent = consequent;
-            this.other = other;
+            this.LinguisticVariable = linguisticVariable;
+            this.Antecedent = antecedent;
+            this.Consequent = consequent;
+            this.Otherwise = other;
         }
 
         public abstract void AddChildRule(Rule rule);
-        public abstract void AddChildRules(IList<Rule> rules);
         public abstract IList<Rule> GetChildRules();
-        //public abstract void AddOtherRule(Rule rule);
-        //public abstract IList<Rule> GetOtherRules();
 
-        public bool CheckAntecedent(IList<Judgment> judgments)
+        public bool IsAllowConsequent(IList<Judgment> judgments)
         {
-            return Antecedent.Check(judgments);
+            return Antecedent.IsTrue(judgments);
         }
-        public bool CheckTitleAntecedent(IList<Judgment> judgments)
+        public bool IsAllowOtherwise(IList<Judgment> judgments)
         {
-            return Antecedent.CheckTitleAntecedent(judgments);
+            return Otherwise != null &&
+                GetChildRules().Count == 0 &&
+                Antecedent.IsCorrespondsButNotTrue(judgments);
         }
 
         public override bool Equals(object obj)
@@ -47,8 +41,8 @@ namespace KnowledgeBaseConsole
             {
                 Rule rule = obj as Rule;
 
-                if (this.antecedent.Equals(rule.Antecedent) &&
-                    this.consequent.Equals(rule.Consequent))
+                if (this.Antecedent.Equals(rule.Antecedent) &&
+                    this.Consequent.Equals(rule.Consequent))
                     return true;
                 else
                     return false;
@@ -57,28 +51,9 @@ namespace KnowledgeBaseConsole
                 throw new NullReferenceException();
         }
 
-        public void Print()
-        {
-            Console.WriteLine("————————————————————————————————————————");
-            Console.WriteLine("Правило");
-            Console.WriteLine("————————————————————————————————————————");
-            Console.WriteLine("Aнтецедент(-ы):");
-
-            IEnumerator<Judgment> antecedentEnumerator = this.antecedent.ToList().GetEnumerator();
-            while (antecedentEnumerator.MoveNext())
-            {
-                Judgment antecedentJudgment = antecedentEnumerator.Current;
-                antecedentJudgment.Print();
-            }
-
-            Console.WriteLine("Консеквент:");
-            this.consequent.Print();
-            Console.WriteLine("————————————————————————————————————————\n\n");
-        }
-
         public override string ToString()
         {
-            return this.consequent.ToString();
+            return String.Format("Antecedent: {0}; Consequent: {1}; Otherwise: {2}", this.Antecedent.ToString(), this.Consequent.ToString(), this.Otherwise?.ToString());
         }
     }
 }

@@ -14,16 +14,5 @@ namespace KnowledgeBaseConsole
             Title = title;
             FuzzyValues = fuzzyValues;
         }
-
-        public void AddFuzzyValue(FactorFuzzyValue fuzzyValue)
-        {
-            FuzzyValues.Add(fuzzyValue);
-        }
-        public void AddMissingFuzzyValue(IList<FactorFuzzyValue> fuzzyValues)
-        {
-            foreach (FactorFuzzyValue fuzzyValue in fuzzyValues)
-                if (!FuzzyValues.Contains(fuzzyValue))
-                    AddFuzzyValue(fuzzyValue);
-        }
     }
 }

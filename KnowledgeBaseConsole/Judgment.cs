@@ -6,16 +6,13 @@ namespace KnowledgeBaseConsole
 {
     class Judgment 
     {
-        private FactorTitle name;
-        private FactorFuzzyValue value;
+        public FactorTitle Title { get; private set; }
+        public FactorFuzzyValue FuzzyValue { get; private set; }
 
-        public FactorTitle Name { get { return this.name; } }
-        public FactorFuzzyValue Value { get { return this.value; } }
-
-        public Judgment(FactorTitle name, FactorFuzzyValue value)
+        public Judgment(FactorTitle title, FactorFuzzyValue fuzzyValue)
         {
-            this.name = name;
-            this.value = value;
+            Title = title;
+            FuzzyValue = fuzzyValue;
         }
 
         public override bool Equals(object obj)
@@ -24,8 +21,8 @@ namespace KnowledgeBaseConsole
             {
                 Judgment judgment = obj as Judgment;
 
-                if (this.name == judgment.name &&
-                    this.value == judgment.value)
+                if (Title == judgment.Title &&
+                    FuzzyValue == judgment.FuzzyValue)
                     return true;
                 else
                     return false;
@@ -34,14 +31,9 @@ namespace KnowledgeBaseConsole
                 throw new ArgumentException();
         }
 
-        public void Print()
-        {
-            Console.WriteLine("\t {0}", this.ToString());
-        }
-
         public override string ToString()
         {
-            return String.Format("{0} — {1}", this.name.ToString(), this.value.ToString());
+            return String.Format("{0} — {1}", Title.ToString(), FuzzyValue.ToString());
         }
     }
 }

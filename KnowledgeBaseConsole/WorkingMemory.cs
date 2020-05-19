@@ -25,15 +25,22 @@ namespace KnowledgeBaseConsole
                 this.Factors.Add(factor);
         }
 
-        public Boolean HaveJudgments(IList<Judgment> judgments)
-        {
-            foreach (Judgment judgment in judgments)
-                if (!this.Factors.Contains(judgment))
-                    return false;
+        //public bool ContainsAny(IList<Rule> judgments)
+        //{
+        //    Rule searchedRule = null;
+        //    foreach (Rule judgment in judgments)
+        //        if (Factors.Contains(judgment.Consequent))
+        //            searchedRule = judgment;
 
-            return true;
-        }
+        //    if (searchedRule != null)
+        //    {
+        //        foreach (Rule judgment in judgments)
+        //            if (!judgment.Antecedent.ContainsAll(Factors))
+        //                return false;
+        //    }
 
+        //    return true;
+        //}
         public bool ContainsAny(IList<Judgment> judgments)
         {
             foreach (Judgment judgment in judgments)

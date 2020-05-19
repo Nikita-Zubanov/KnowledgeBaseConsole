@@ -6,17 +6,12 @@ namespace KnowledgeBaseConsole
 {
     class Coherence : IVerification, ITransformer
     {
-        public void Transform(IList<Rule> rules)
+        public void Transform(ref IList<Rule> rules)
         {
-            if (rules != null)
-            {
-                this.RemoveDuplicates(rules);
-            }
-            else
-                throw new NullReferenceException();
+            this.RemoveDuplicates(rules);
         }
 
-        public Boolean IsVerified(IList<Rule> rules)
+        public bool IsVerified(IList<Rule> rules)
         {
             if (rules != null)
             {
@@ -41,7 +36,7 @@ namespace KnowledgeBaseConsole
             }
         }
 
-        private Boolean IsConsequentsNotContradictions(IList<Rule> rules)
+        private bool IsConsequentsNotContradictions(IList<Rule> rules)
         {
             foreach (Rule currentRule in rules)
                 foreach (Rule rule in rules)

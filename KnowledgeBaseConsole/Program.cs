@@ -12,17 +12,23 @@ namespace KnowledgeBaseConsole
 
             Console.WriteLine("Входные параметры:");
             foreach (Judgment factor in factors)
-                factor.Print();
+                Console.WriteLine("\t {0}", factor.ToString());
 
             LogicalConclusion interpreter = new LogicalConclusion(factors);
             interpreter.FindLogicalConclusionAndSetLogicalOutput();
 
-            foreach (KeyValuePair<Int32, IList<Judgment>> factorKeyValue in interpreter.FactorsOutput)
+            foreach (KeyValuePair<Int32, IList<Judgment>> factorKeyValue in interpreter.LogicalOutput.FactorsOutput)
             {
                 Console.WriteLine("Итерация №{0}", factorKeyValue.Key);
                 foreach (Judgment factor in factorKeyValue.Value)
                     Console.WriteLine("\t{0}", factor);
             }
+            //foreach (KeyValuePair<Int32, IList<Rule>> factorKeyValue in interpreter.RulesOutput)
+            //{
+            //    Console.WriteLine("Итерация №{0}", factorKeyValue.Key);
+            //    foreach (Rule factor in factorKeyValue.Value)
+            //        Console.WriteLine("\t{0}", factor);
+            //}
         }
 
         #region Factors from Interface
@@ -81,7 +87,7 @@ namespace KnowledgeBaseConsole
         {
             Judgment judgment;
 
-            judgment = new Judgment(FactorTitle.Ua, FactorFuzzyValue.Nominal);
+            judgment = new Judgment(FactorTitle.Ua, FactorFuzzyValue.Exceeding);
 
             return judgment;
         }

@@ -6,6 +6,6 @@ namespace KnowledgeBaseConsole
 {
     interface IVerification
     {
-        Boolean IsVerified(IList<Rule> rules);
+        bool IsVerified(IList<Rule> rules);
     }
 }

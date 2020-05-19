@@ -6,6 +6,6 @@ namespace KnowledgeBaseConsole
 {
     interface ITransformer
     {
-        void Transform(IList<Rule> rules);
+        void Transform(ref IList<Rule> rules);
     }
 }

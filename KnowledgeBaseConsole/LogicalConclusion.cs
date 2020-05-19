@@ -8,81 +8,62 @@ namespace KnowledgeBaseConsole
 {
     class LogicalConclusion
     {
-        private RuleBase ruleBase;
+        private RuleBase ruleBase = new RuleBase();
         private WorkingMemory workingMemory;
 
-        private IDictionary<Int32, IList<Judgment>> factorsOutput;
-        private IDictionary<Int32, IList<Rule>> rulesOutput;
-
-        private Int32 iteration = 1;
-
-        public IDictionary<Int32, IList<Judgment>> FactorsOutput { get { return this.factorsOutput; } }
-        public IDictionary<Int32, IList<Rule>> RulesOutput { get { return this.rulesOutput; } }
+        public LogicalOutput LogicalOutput { get; set; } = new LogicalOutput();
 
         public LogicalConclusion(IList<Judgment> factors)
         {
-            this.ruleBase = new RuleBase();
             this.workingMemory = new WorkingMemory(factors);
-
-            this.factorsOutput = new Dictionary<Int32, IList<Judgment>>();
-            this.rulesOutput = new Dictionary<Int32, IList<Rule>>();
         }
 
         public void FindLogicalConclusionAndSetLogicalOutput()
         {
-            IList<Judgment> topRuleTreeConsequences = this.ruleBase.GetTopRuleTreeConsequences();
+            IList<Judgment> topRuleConsequences = ruleBase.GetTopRuleConsequences();
 
-            while (!this.workingMemory.ContainsAny(topRuleTreeConsequences))
+            while (!workingMemory.ContainsAny(topRuleConsequences))
             {
-                this.factorsOutput[this.iteration] = new List<Judgment>();
-                this.rulesOutput[this.iteration] = new List<Rule>();
+                LogicalOutput.Next();
 
-                this.FillRulesAndFactorsLogicalOutput(workingMemory, ruleBase.RuleTree);
+                FillRulesAndFactorsLogicalOutput(workingMemory, ruleBase.RuleTree);
 
-                this.workingMemory.AddRangeFactors(this.factorsOutput[this.iteration]);
-
-                this.iteration++;
+                workingMemory.AddRangeFactors(LogicalOutput.CurrentFactors);
             }
         }
 
-        private void FillRulesAndFactorsLogicalOutput(WorkingMemory workingMemory, IList<Rule> baseRuleTree)
+        private void FillRulesAndFactorsLogicalOutput(WorkingMemory workingMemory, IList<Rule> ruleTree)
         {
-            foreach (Rule rule in baseRuleTree)
+            foreach (Rule rule in ruleTree)
             {
-                int a;
-                if (rule.Consequent.Equals(new Judgment(FactorTitle.ServiceabilityEquipment, FactorFuzzyValue.Maximum)))
-                    a = 0;
-                if (rule.CheckAntecedent(workingMemory.Factors))
+                if (!LogicalOutput.HaveConsequentOrOtherwise(rule) &&
+                    rule.IsAllowConsequent(workingMemory.Factors))
                 {
-                    this.rulesOutput[this.iteration].Add(rule);
-                    this.factorsOutput[this.iteration].Add(rule.Consequent);
-                }
-                else
-                {
-                    if (rule.Other != null && rule.CheckTitleAntecedent(workingMemory.Factors))
-                    {
-                        workingMemory.AddFactor(rule.Other);
-                    }
+                    LogicalOutput.Add(rule.Consequent);
+                    LogicalOutput.Add(rule);
 
-                    this.FillRulesAndFactorsLogicalOutput(workingMemory, rule.GetChildRules());
+                    IfIsTopRuleAddToWorkingMemory(rule);
                 }
+                else if (!LogicalOutput.HaveConsequentOrOtherwise(rule) &&
+                    rule.IsAllowOtherwise(workingMemory.Factors))
+                {
+                    LogicalOutput.Add(rule.Otherwise);
+                    LogicalOutput.Add(rule);
+                }
+
+                FillRulesAndFactorsLogicalOutput(workingMemory, rule.GetChildRules());
             }
         }
 
-        //private void CheckOtherRule(IList<Rule> rules)
-        //{
-        //    foreach (var rule in rules)
-        //    {
-        //        if (rule.Other != null)
-        //        {
-        //            if (rule.CheckTitleAntecedent(workingMemory.Factors))
-        //            {
-        //                this.factorsOutput[this.iteration].Add(rule.Other);
-        //                this.workingMemory.AddFactor(rule.Other);
+        private void IfIsTopRuleAddToWorkingMemory(Rule rule)
+        {
+            IList<Judgment> topRuleConsequences = ruleBase.GetTopRuleConsequences();
+            if (topRuleConsequences.Contains(rule.Consequent))
+            {
+                workingMemory.AddRangeFactors(LogicalOutput.CurrentFactors);
 
-        //            }
-        //        }
-        //    }
-        //}
+                LogicalOutput.Next();
+            }
+        }
     }
 }

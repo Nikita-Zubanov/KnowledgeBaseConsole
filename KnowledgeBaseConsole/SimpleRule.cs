@@ -11,19 +11,12 @@ namespace KnowledgeBaseConsole
 
         public override void AddChildRule(Rule rule) =>
             throw new NotImplementedException();
-        public override void AddChildRules(IList<Rule> rules) =>
-            throw new NotImplementedException();
         public override IList<Rule> GetChildRules() =>
             throw new NotImplementedException();
 
-        //public override void AddOtherRule(Rule rule) =>
-        //    throw new NotImplementedException();
-        //public override IList<Rule> GetOtherRules() =>
-        //    throw new NotImplementedException();
-
         public static explicit operator CompoundRule(SimpleRule rule)
         {
-            return new CompoundRule(rule.LinguisticVariable, rule.Antecedent, rule.Consequent, rule.Other);
+            return new CompoundRule(rule.LinguisticVariable, rule.Antecedent, rule.Consequent, rule.Otherwise);
         }
     }
 }
